@@ -1,5 +1,5 @@
 # EMR, Spark, & Jupyter
-In this tutorial, I'm going to setup a data environment with Amazon EMR, Apache Spark, and Jupyter Notebook. Apache Spark has gotten extremely popular for big data processing and machine learning and EMR makes it incredibly simple to provision a Spark Cluster in minutes! At Mozilla we frequently spin up Spark clusters to perform data analysis and we have a [repository]() for scripts for provisioning our clusters. The scripts contained in this repository extract the functionality that is specific to creating a simple Spark cluster and installing Jupyter Notebook on the main node of the cluster.
+In this tutorial, I'm going to setup a data environment with Amazon EMR, Apache Spark, and Jupyter Notebook. Apache Spark has gotten extremely popular for big data processing and machine learning and EMR makes it incredibly simple to provision a Spark Cluster in minutes! At Mozilla we frequently spin up Spark clusters to perform data analysis and we have a [repository]() for scripts for provisioning our clusters. The scripts contained in my repository extract the functionality that is specific to creating a simple Spark cluster and installing Jupyter Notebook on the main node of the cluster.
 
 ## Assumptions
 The major assumption that I make in the following tutorial is that your AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY are accessible to `awscli`. This can be solved by placing the following environmental variables in the environment file of your respective shell. There might be other solutions to this problem, but I personally use this solution.
@@ -10,10 +10,10 @@ export AWS_SECRET_ACCESS_KEY=...
 ```
 
 ## Setting Up Key Pair Using EC2
-In order to access the cluster from via the command line later, you need to generate a Key Pair used to ssh into the main node. I haven't been able to figure out a way in which to create a key pair using the `awscli` and have it work with the remainder of the script. Thus I recommend setting up a Key Pair using the [EC2 User Guide](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair). Make sure to place the private key in this directory in order to run the script.
+In order to access the cluster via the command line later, you need to generate a Key Pair to ssh into the main node. I haven't been able to figure out a way in which to create a key pair using the `awscli` and have it work with the remainder of the script. Thus, I recommend setting up a Key Pair using the [EC2 User Guide](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair). Make sure to place the private key in this directory in order to run the script.
 
 ## Configuring the Script
-The following two variables need to be altered in based on your use case. They are found in `install-jupyter-notebook` and `script.sh`.
+The following two variables need to be altered based on your use case. They are found in `install-jupyter-notebook` and `script.sh`.
 
 ```bash
 # bucket should be created and used on s3
@@ -23,7 +23,7 @@ SPARK_KEY_PAIR="key-pair-created-in-first-step"
 ```
 
 ## Configuring Jupyter Notebook
-`jupyter_notebook_config.py` is used to configure Jupyter Notebook on the main node. As an example, this file can be altered to set a password for access to notebooks. Below is the code for generating a password for notebooks.
+`jupyter_notebook_config.py` is used to configure Jupyter Notebook on the main node. As an example, this file can be altered to set a password for access to notebooks. Below is the code for this example.
 
 ```python
 from notebook.auth import passwd
@@ -35,8 +35,8 @@ passwd('password')
 After following the above steps, you can run the script to provision the cluster using `bash script.sh`. Each command can also be run separately in your shell if that is preferred.
 
 ## Accesing Jupyter
-In order to forward the notebook server and access Jupyter, we invoke the following command. Make sure
-that the private key has the proper permissions before running the command (if you followed
+In order to forward the notebook server and access Jupyter, we invoke the command below. Make sure
+that the private key being used has the proper permissions before running the command (if you followed
 the AWS guide it should)!
 
 ```bash
